@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Price Data</title>
-    </head>
-    <body>
-        <h1>Stock Price Data</h1>
-        <label for="company">Select Company:</label>
-        <select id="company">
+</head>
+<body>
+    <h1>Stock Price Data</h1>
+    <label for="company">Select Company:</label>
+    <select id="company">
         <option value="AAPL" selected>Apple</option>
         <option value="MSFT">Microsoft</option>
         <option value="META">Meta</option>
@@ -17,38 +17,13 @@
         <option value="KO">Coca-Cola</option>
         <option value="MCD">McDonald's</option>
         <option value="QSR">Burger King</option>
+        <option value="NVDA">NVIDIA</option>
     </select>
     <label for="start-date">From:</label>
-    <input type="date" id="start-date" value="2022-01-01">
+    <input type="date" id="start-date" value="2022-04-06">
     <label for="end-date">To:</label>
-    <input type="date" id="end-date" value="2023-01-01">
+    <input type="date" id="end-date" value="2022-04-09">
     <button id="update-data">Update Data</button>
-    <pre id="fileContent" style="white-space: pre-wrap;"></pre>
-
-    <script>
-        document.getElementById('update-data').addEventListener('click', function() {
-        const company = document.getElementById('company').value;
-        const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-
-            const data = { company, startDate, endDate };
-
-            fetch('http://localhost:8080/stockData', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                    })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                const fileContentElement = document.getElementById('fileContent');
-                fileContentElement.textContent = data.data.replace(/\\n/g, '\n');
-                })
-                .catch(error => console.error('Error:', error));
-                });
-
-    </script>
-    </body>
-    </html>
+    
+</body>
+</html>
