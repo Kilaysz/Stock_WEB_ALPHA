@@ -3,7 +3,7 @@ package com.Website.StockWeb.function;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LinearRegression {
+public class LineRegression {
     public static Map<String, Object> calculateLineRegression(double[] stockPrices) {
         double startDouble = 1.00d;
         double endDouble = stockPrices.length;
