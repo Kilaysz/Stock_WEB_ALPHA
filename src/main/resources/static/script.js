@@ -16,6 +16,21 @@ document.getElementById('update-data').addEventListener('click', function() {
         return; // Get an error prompt
     }
 
+    const today = new Date().toISOString().split('T')[0];
+    if (endDate > today) {
+        alert('Selected date cannot be later than today.');
+        return;
+    }
+
+    localStorage.setItem('company', company);
+    localStorage.setItem('startDate', startDate);
+    localStorage.setItem('endDate', endDate);
+    localStorage.setItem('period', period);
+
+    fetchDataAndUpdateChart(company, startDate, endDate, period);
+});
+
+function fetchDataAndUpdateChart(company, startDate, endDate, period) {
     const data = { company, startDate, endDate };
 
     fetch('/stockData', {
@@ -207,4 +222,20 @@ document.getElementById('update-data').addEventListener('click', function() {
     .catch(error => {
         alert(error.message); 
     });
+}
+
+window.addEventListener('load', function() {
+    const company = localStorage.getItem('company');
+    const startDate = localStorage.getItem('startDate');
+    const endDate = localStorage.getItem('endDate');
+    const period = localStorage.getItem('period');
+
+    if (company && startDate && endDate && period) {
+        document.getElementById('company').value = company;
+        document.getElementById('start-date').value = startDate;
+        document.getElementById('end-date').value = endDate;
+        document.getElementById('period').value = period;
+
+        fetchDataAndUpdateChart(company, startDate, endDate, parseInt(period, 10));
+    }
 });
