@@ -107,6 +107,99 @@ document.getElementById('update-data').addEventListener('click', function() {
                     .then(standardDeviation => {
                         document.getElementById('std-dev').innerText = `Standard Deviation: ${standardDeviation.toFixed(2)}`;
                     });
+
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    if (chart === null) {
+                        chart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: dates,
+                                datasets: [
+                                    {
+                                        label: 'Closing Prices',
+                                        data: prices,
+                                        borderColor: 'gray',
+                                        borderWidth: 1,
+                                        fill: false
+                                    },
+                                    {
+                                        label: 'Regression Line',
+                                        data: regressionLine,
+                                        borderColor: 'red',
+                                        borderWidth: 1,
+                                        fill: false
+                                    },
+                                    {
+                                        label: 'Major Resistance',
+                                        data: new Array(dates.length).fill(MajorResistance),
+                                        borderColor: 'green',
+                                        borderWidth: 1,
+                                        fill: false
+                                    },
+                                    {
+                                        label: 'Major Support',
+                                        data: new Array(dates.length).fill(MajorSupport),
+                                        borderColor: 'blue',
+                                        borderWidth: 1,
+                                        fill: false
+                                    },
+                                    {
+                                        label: 'Minor Resistance',
+                                        data: new Array(dates.length).fill(MinorResistance),
+                                        borderColor: 'purple',
+                                        borderWidth: 1,
+                                        fill: false
+                                    },
+                                    {
+                                        label: 'Minor Support',
+                                        data: new Array(dates.length).fill(MinorSupport),
+                                        borderColor: 'orange',
+                                        borderWidth: 1,
+                                        fill: false
+                                    },
+                                    {
+                                        label: 'Moving Average',
+                                        data: processedMovingAverage,
+                                        borderColor: 'yellow',
+                                        borderWidth: 1,
+                                        fill: false,
+                                        spanGaps: true // Connects the dots if there are null values
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    xAxes: [{
+                                        type: 'time',
+                                        time: {
+                                            unit: 'day',
+                                            tooltipFormat: 'MM/DD/YYYY'
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Date'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Price'
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    } else {
+                        chart.data.labels = dates;
+                        chart.data.datasets[0].data = prices;
+                        chart.data.datasets[1].data = regressionLine;
+                        chart.data.datasets[2].data = new Array(dates.length).fill(MajorResistance);
+                        chart.data.datasets[3].data = new Array(dates.length).fill(MajorSupport);
+                        chart.data.datasets[4].data = new Array(dates.length).fill(MinorResistance);
+                        chart.data.datasets[5].data = new Array(dates.length).fill(MinorSupport);
+                        chart.data.datasets[6].data = processedMovingAverage;
+                        chart.update();
+                    }
                 });
             });
         });
