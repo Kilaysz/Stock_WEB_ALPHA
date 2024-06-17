@@ -1,5 +1,6 @@
 let chart = null;
 
+// Add event listener when Update Data button is clicked
 document.getElementById('update-data').addEventListener('click', function() {
     const company = document.getElementById('company').value;
     const startDate = document.getElementById('start-date').value;
@@ -13,7 +14,7 @@ document.getElementById('update-data').addEventListener('click', function() {
 
     if (startDate > endDate) {
         alert('Start date cannot be later than end date.');
-        return; // Get an error prompt
+        return;
     }
 
     const today = new Date().toISOString().split('T')[0];
@@ -22,6 +23,7 @@ document.getElementById('update-data').addEventListener('click', function() {
         return;
     }
 
+    // Stored data in local storage to handle chart reload problem
     localStorage.setItem('company', company);
     localStorage.setItem('startDate', startDate);
     localStorage.setItem('endDate', endDate);
@@ -30,6 +32,7 @@ document.getElementById('update-data').addEventListener('click', function() {
     fetchDataAndUpdateChart(company, startDate, endDate, period);
 });
 
+// Handle request from Client-side and reponse from backend
 function fetchDataAndUpdateChart(company, startDate, endDate, period) {
     const data = { company, startDate, endDate };
 
@@ -123,6 +126,7 @@ function fetchDataAndUpdateChart(company, startDate, endDate, period) {
                         document.getElementById('std-dev').innerText = `Standard Deviation: ${standardDeviation.toFixed(2)}`;
                     });
 
+                    // Draw chart based on collected data
                     const ctx = document.getElementById('myChart').getContext('2d');
                     if (chart === null) {
                         chart = new Chart(ctx, {
@@ -204,7 +208,7 @@ function fetchDataAndUpdateChart(company, startDate, endDate, period) {
                                 }
                             }
                         });
-                    } else {
+                    } else { // Dynamically update the chart
                         chart.data.labels = dates;
                         chart.data.datasets[0].data = prices;
                         chart.data.datasets[1].data = regressionLine;
@@ -230,6 +234,7 @@ window.addEventListener('load', function() {
     const endDate = localStorage.getItem('endDate');
     const period = localStorage.getItem('period');
 
+    // Checked local storage once the webpage is reload
     if (company && startDate && endDate && period) {
         document.getElementById('company').value = company;
         document.getElementById('start-date').value = startDate;
@@ -238,4 +243,27 @@ window.addEventListener('load', function() {
 
         fetchDataAndUpdateChart(company, startDate, endDate, parseInt(period, 10));
     }
+
+    const modeToggle = document.getElementById('mode-toggle');
+    const modeIcon = document.getElementById('mode-icon');
+    const iconPath = document.getElementById('icon-path');
+    const iconCircle = document.getElementById('icon-circle');
+
+    // Theme mode implementation
+    modeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('night-mode');
+        const isNightMode = document.body.classList.contains('night-mode');
+        
+        if (isNightMode) {
+            iconPath.setAttribute('d', 'M152.62 126.77c0-33 4.85-66.35 17.23-94.77C87.54 67.83 32 151.89 32 247.38 32 375.85 136.15 480 264.62 480c95.49 0 179.55-55.54 215.38-137.85-28.42 12.38-61.8 17.23-94.77 17.23-128.47 0-232.61-104.14-232.61-232.61z'); // Moon path
+            iconPath.setAttribute('stroke', 'white');
+            iconPath.setAttribute('fill', 'white');
+            iconCircle.setAttribute('stroke', 'none');
+        } else {
+            iconPath.setAttribute('d', 'M256 48v48m0 320v48m147.08-355.08l-33.94 33.94M142.86 369.14l-33.94 33.94M464 256h-48m-320 0H48m355.08 147.08l-33.94-33.94M142.86 142.86l-33.94-33.94'); // Sun path
+            iconPath.setAttribute('stroke', 'black');
+            iconPath.setAttribute('fill', 'none');
+            iconCircle.setAttribute('stroke', 'black');
+        }
+    });
 });

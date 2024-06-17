@@ -1,8 +1,23 @@
-/* styles.css */
+/* Theme-related CSS variables and night mode */
+:root {
+    --background-color: white;
+    --text-color: black;
+    --button-bg-color: lightgray;
+    --button-text-color: black;
+}
 
+body.night-mode {
+    --background-color: black;
+    --text-color: white;
+    --button-bg-color: darkgray;
+    --button-text-color: white;
+}
+
+/* General styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background-color: var(--background-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,14 +28,14 @@ body {
 }
 
 h1 {
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 20px;
 }
 
 label {
     display: block;
     margin-top: 10px;
-    color: #555;
+    color: var(--text-color);
 }
 
 select, input[type="date"], input[type="number"], button {
@@ -33,12 +48,10 @@ select, input[type="date"], input[type="number"], button {
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -54,8 +67,8 @@ input[type="number"] {
 #std-dev {
     margin-top: 20px;
     font-size: 18px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
-    color: #333;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: var(--text-color);
 }
 
 #myChart {
@@ -74,23 +87,46 @@ input[type="number"] {
     }
 }
 
-/* styles.css */
-
+/* Chart container styles */
 #chart-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* Wrap elements to the next line if they don't fit */
-    width: 100vw; /* Set the width to the viewport width */
+    flex-wrap: wrap;
+    width: 100vw;
     margin-top: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    overflow: hidden; /* Ensures the chart doesn't overflow its container */
+    overflow: hidden;
 }
 
 #myChart {
-    flex: 1; /* Allows the chart to grow to fill the container */
-    min-width: 0; /* Ensures the chart can shrink if needed */
+    flex: 1;
+    min-width: 0;
     width: 100%;
-    height: 400px; /* Set the initial height of the chart */
+    height: 400px;
+}
+
+/* Mode toggle button styles */
+#mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#mode-icon {
+    height: 24px;
+    width: 24px;
+}
+
+@media (max-width: 768px) {
+    #mode-toggle {
+        position: fixed;
+        top: 10px;
+        right: -300px;
+    }
 }
