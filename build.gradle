@@ -20,6 +20,10 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2' // Java 8 date/time support
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.2' // XML support
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2' // YAML support
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
